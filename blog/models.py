@@ -17,3 +17,7 @@ class post(models.Model):
 
     def __str__(self):
         return "{} - {}".format(self.title,self.id)
+    
+class Meta:
+    ordering = ['created_date']
+    verbose_name = ['Post']# change name in show
