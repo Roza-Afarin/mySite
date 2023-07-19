@@ -16,7 +16,7 @@ class post(models.Model):
     published_date = models.DateTimeField(null = True)
     created_date = models.DateTimeField(auto_now_add = True)
     updated_date = models.DateTimeField(auto_now = True)
-    slug = models.SlugField(default='', editable=False,  max_length=160)
+    #slug = models.SlugField(default='', editable=False,  max_length=160)
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
     related_query_name='hit_count_generic_relation')
 
