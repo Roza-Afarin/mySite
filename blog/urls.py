@@ -6,6 +6,8 @@ app_name = 'blog'
 
 urlpatterns = [
     path('',blog_index,name='blog'),
-    path('single',blog_single,name='detail'),
-    path('<str:name>/<str:family_name>/<str:age>',blog_test,name='test')
+    path('single',blog_index,name='detail'),
+    path('test',blog_test,name='test'),
+    #path('blog/<int:pk>/<str:slug>/', PostDetailView.as_view(),   name='post')
+    #path('blog/blog/<int:pk>/<str:slug>/', PostDetailView.as_view(),   name='detail')
 ]

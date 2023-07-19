@@ -1,6 +1,8 @@
 {% extends 'base.html'%}
+{% load hitcount_tags %}
 {% load static %}
 {% block content%}
+{% load custom_tags %}
 
 <!-- start banner Area -->
 <section class="banner-area relative blog-home-banner" id="home">
@@ -89,7 +91,9 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-8 posts-list">
-				{% for post in posts %}
+				{%for post in posts%}
+				{%subtract post.published_date now as time%}
+				{%if time.days <= 0 %}
 				<div class="single-post row">
 					<div class="col-lg-3  col-md-3 meta-details">
 						<ul class="tags">
@@ -103,7 +107,7 @@
 									class="lnr lnr-user"></span></p>
 							<p class="date col-lg-12 col-md-12 col-6"><a href="#">{{post.published_date}}</a> <span
 									class="lnr lnr-calendar-full"></span></p>
-							<p class="view col-lg-12 col-md-12 col-6"><a href="#">{{post.conted_vies}} Views</a> <span
+							<p class="view col-lg-12 col-md-12 col-6"><a href="#">Views: {% get_hit_count for post%}</a> <span
 									class="lnr lnr-eye"></span></p>
 							<p class="comments col-lg-12 col-md-12 col-6"><a href="#">06 Comments</a> <span
 									class="lnr lnr-bubble"></span></p>
@@ -113,15 +117,16 @@
 						<div class="feature-img">
 							<img class="img-fluid" src="{% static 'img/blog/feature-img1.jpg' %}" alt="">
 						</div>
-						<a class="posts-title" href="blog-single.html">
+						<a class="posts-title" href="{% url 'blog:detail' %}">
 							<h3>{{post.title}}</h3>
 						</a>
 						<p class="excert">
 							{{post.content}}
 						</p>
-						<a href="blog-single.html" class="primary-btn">View More</a>
+						<a href="{% url 'blog:detail' %}" class="primary-btn">View More</a>
 					</div>
 				</div>
+				{%endif%}
                 {% endfor %}
 				<nav class="blog-pagination justify-content-center d-flex">
 					<ul class="pagination">
