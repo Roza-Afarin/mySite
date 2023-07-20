@@ -14,10 +14,10 @@ class PostDetailView(HitCountDetailView):
     
 
 def blog_index(request):
-    posts = post.objects.filter(status = 1)
-    now = datetime.datetime.now(datetime.timezone.utc)
+    posts = post.objects.filter(published_date__lte = datetime.datetime.now(datetime.timezone.utc))
+    #now = datetime.datetime.now(datetime.timezone.utc)
     #posts = post.objects.filter(status = 1)
-    context = {'posts':posts,'now':now}
+    context = {'posts':posts}
     return render(request,'blog/blog-home.html',context)#template
 
 def blog_single(request,pk):

@@ -92,8 +92,6 @@
 		<div class="row">
 			<div class="col-lg-8 posts-list">
 				{%for post in posts%}
-				{%subtract post.published_date now as time%}
-				{%if time.days <= 0 %}
 				<div class="single-post row">
 					<div class="col-lg-3  col-md-3 meta-details">
 						<ul class="tags">
@@ -126,7 +124,6 @@
 						<a href="{% url 'blog:detail' pk=post.id %}" class="primary-btn">View More</a>
 					</div>
 				</div>
-				{%endif%}
                 {% endfor %}
 				<nav class="blog-pagination justify-content-center d-flex">
 					<ul class="pagination">
