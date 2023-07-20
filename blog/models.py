@@ -2,11 +2,12 @@ from django.db import models
 from hitcount.models import HitCountMixin, HitCount
 from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 # Create your models here.
 
 class post(models.Model):
     #image
-    #author
+    author = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     title = models.CharField(max_length = 255)
     content = models.TextField()
     #tag
