@@ -2,6 +2,8 @@
 {% load hitcount_tags %}
 {% load static %}
 {% block content%}
+{% load custom_tags %}
+
 
 <!-- start banner Area -->
 <section class="relative about-banner">
@@ -40,8 +42,8 @@
 							<li><a href="#">Lifestyle</a></li>
 						</ul>
 						<div class="user-details row">
-							<p class="user-name col-lg-12 col-md-12 col-6"><a href="#">{{posts.author.get_full_name}}</a> <span
-									class="lnr lnr-user"></span></p>
+							<p class="user-name col-lg-12 col-md-12 col-6"><a
+									href="#">{{posts.author.get_full_name}}</a> <span class="lnr lnr-user"></span></p>
 							<p class="date col-lg-12 col-md-12 col-6"><a href="#">{{posts.published_date}}</a> <span
 									class="lnr lnr-calendar-full"></span></p>
 							<p class="view col-lg-12 col-md-12 col-6"><a href="#">Views: {{posts.conted_vies}}</a>
@@ -63,42 +65,26 @@
 							{{posts.content}}
 						</p>
 					</div>
-					<div class="navigation-area">
-						<div class="row">
-							<div
-								class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
-								<div class="thumb">
-									<a href="#"><img class="img-fluid" src="{% static 'img/blog/prev.jpg' %}"
-											alt=""></a>
-								</div>
-								<div class="arrow">
-									<a href="#"><span class="lnr text-white lnr-arrow-left"></span></a>
-								</div>
-								<div class="detials">
-									<p>Prev Post</p>
-									<a href="#">
-										<h4>Space The Final Frontier</h4>
-									</a>
-								</div>
-							</div>
-							<div
-								class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
-								<div class="detials">
-									<p>Next Post</p>
-									<a href="#">
-										<h4>Telescopes 101</h4>
-									</a>
-								</div>
-								<div class="arrow">
-									<a href="#"><span class="lnr text-white lnr-arrow-right"></span></a>
-								</div>
-								<div class="thumb">
-									<a href="#"><img class="img-fluid" src="{% static 'img/blog/next.jpg' %}"
-											alt=""></a>
-								</div>
-							</div>
-						</div>
+					<!--
+					<div class="pagination">
+						<span class="step-links">
+								<a href="{{ previous.get_absolute_url }}">previous</a>
+
+								<a href="{{ next.get_absolute_url }}">next</a>
 					</div>
+					-->
+					<ul class="pager">
+						{% if  previous %}
+							<li class="previous">
+								 <a href="{% url 'blog:detail' pk=previous.id %}">&larr; Previous Post</a>
+							</li>
+						{% endif %}
+						{% if next %}
+							<li class="next">
+								 <a href="{% url 'blog:detail' pk=next.id %}">Next Post &rarr;</a>
+							</li>
+						{% endif %}
+					</ul>
 					<div class="comments-area">
 						<h4>05 Comments</h4>
 						<div class="comment-list">
