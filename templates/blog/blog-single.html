@@ -3,7 +3,7 @@
 {% load static %}
 {% block content%}
 {% load custom_tags %}
-
+{% load mathfilters %}
 
 <!-- start banner Area -->
 <section class="relative about-banner">
@@ -44,7 +44,7 @@
 						<div class="user-details row">
 							<p class="user-name col-lg-12 col-md-12 col-6"><a
 									href="#">{{posts.author.get_full_name}}</a> <span class="lnr lnr-user"></span></p>
-							<p class="date col-lg-12 col-md-12 col-6"><a href="#">{{posts.published_date}}</a> <span
+							<p class="date col-lg-12 col-md-12 col-6"><a href="#">{{posts.published_date|date:'d/M/Y'}}</a> <span
 									class="lnr lnr-calendar-full"></span></p>
 							<p class="view col-lg-12 col-md-12 col-6"><a href="#">Views: {{posts.conted_vies}}</a>
 								<span class="lnr lnr-eye"></span>
@@ -74,12 +74,24 @@
 					</div>
 					-->
 					<ul class="pager">
-						{% if  previous %}
+						{% if  previous and not previous.status %}
+						{% countP previous as count %}	
+							<li class="previous">
+								 <a href="{% url 'blog:detail' pk=previous.id|sub:count %}">&larr; Previous Post</a>
+							</li>
+						{% endif %}
+						{% if  previous and previous.status %}					
 							<li class="previous">
 								 <a href="{% url 'blog:detail' pk=previous.id %}">&larr; Previous Post</a>
 							</li>
 						{% endif %}
-						{% if next %}
+						{% if next and not next.status %}
+						{% countN next as count %}
+							<li class="next">
+								 <a href="{% url 'blog:detail' pk=next.id|add:count %}">Next Post &rarr;</a>
+							</li>
+						{% endif %}
+						{% if next and next.status %}
 							<li class="next">
 								 <a href="{% url 'blog:detail' pk=next.id %}">Next Post &rarr;</a>
 							</li>
@@ -219,26 +231,7 @@
 								<button type="submit"><i class="fa fa-search"></i></button>
 							</form>
 						</div>
-						<div class="single-sidebar-widget user-info-widget">
-							<img src="{% static 'img/blog/user-info.png' %}" alt="">
-							<a href="#">
-								<h4>Charlie Barber</h4>
-							</a>
-							<p>
-								Senior blog writer
-							</p>
-							<ul class="social-links">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fa fa-github"></i></a></li>
-								<li><a href="#"><i class="fa fa-behance"></i></a></li>
-							</ul>
-							<p>
-								Boot camps have its supporters andit sdetractors. Some people do not understand why you
-								should have to spend money on boot camp when you can get. Boot camps have itssuppor ters
-								andits detractors.
-							</p>
-						</div>
+							{% include 'blog/blog-writer.html' %}
 						<div class="single-sidebar-widget popular-post-widget">
 							<h4 class="popular-title">Popular Posts</h4>
 							<div class="popular-post-list">
