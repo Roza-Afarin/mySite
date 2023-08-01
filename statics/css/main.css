@@ -2739,7 +2739,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .single-other-issue .thumb img {
-  width: 100%;
+  width: 200px;
+  height: 200px;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;

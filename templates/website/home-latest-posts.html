@@ -1,0 +1,21 @@
+{% load static %}
+       
+        <div class="row">
+            {% for posts in posts%}
+            <div class="col-lg-3 col-md-6">
+                <div class="single-other-issue">
+                    <div class="thumb">
+                        <img class="img-fluid" src="{{posts.image.url}}" alt="">
+                    </div>
+                    <a href="{% url 'blog:detail' pk=posts.id %}">
+                        <h4>{{posts.title}}</h4>
+                    </a>
+                    <p>
+                        {{posts.content}}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+    

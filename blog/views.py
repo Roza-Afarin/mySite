@@ -4,7 +4,7 @@ from django.shortcuts import render,get_object_or_404
 #from django.http import HttpResponse,JsonResponse
 #import datetime
 #from hitcount.views import HitCountDetailView
-#from django.core.paginator import Paginator
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from blog.models import post
 from datetime import *
 from django.utils import timezone
@@ -38,6 +38,16 @@ def blog_index(request,**kwargs):
         posts = posts.filter(category__name=kwargs['cat_name'])
     if kwargs.get('author_username') != None:
         posts = posts.filter(author__username=kwargs['author_username'])
+    #paging = post.objects.all().order_by('id')
+    posts = Paginator(posts, 2)
+    try:
+        page_number = request.GET.get("page")
+        posts = posts.get_page(page_number)
+    except PageNotAnInteger:
+        posts = posts.get_page(1)
+    except EmptyPage:
+        posts = posts.get_page(1)
+    context = {'posts':posts}
     #now = datetime.datetime.now(datetime.timezone.utc)
     context = {'posts':posts}
     return render(request,'blog/blog-home.html',context)#template
@@ -46,11 +56,6 @@ def blog_single(request,pk):
     posts = get_object_or_404(post,pk=pk,status = 1)
     posts.conted_vies+=1
     posts.save()
-    #paging = post.objects.all().order_by('id')
-    #paginator = Paginator(paging, 1)
-    #page_number = request.GET.get("page")
-    #page_obj = paginator.get_page(page_number)
-    #context = {'posts':posts,"page_obj": page_obj}
     try:
         next = posts.get_next_by_created_date()
     except posts.DoesNotExist:
