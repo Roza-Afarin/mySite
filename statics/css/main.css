@@ -48,6 +48,20 @@ $black			: #222;
 /* =================================== */
 /*  Basic Style 
 /* =================================== */
+.SUCCESS{
+  list-style: none;
+  background-color: #2e6da4;
+  color: white;
+  box-shadow: 12px 12px 12px #e61c66;
+  text-align: center;
+}
+.ERROR{
+  list-style: none;
+  background-color: #2e6da4;
+  color: white;
+  box-shadow: 12px 12px 12px #e61c66;
+  text-align: center;
+}
 ::-moz-selection {
   /* Code for Firefox */
   background-color: #f8b600;

@@ -79,3 +79,4 @@ def blog_search(request):
             posts = posts.filter(content__contains=s)
     context = {'posts':posts}
     return render(request,'blog/blog-home.html',context)#template
+

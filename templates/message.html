@@ -1,0 +1,16 @@
+{% for message in messages %}
+
+    <div class="popuptext">
+      <strong class="mr-auto">
+        {% if message.tags == 'ERROR' %}
+          <i class="popuptext"></i>
+        {% elif message.tags == 'SUCCESS' %}
+          <i class="popuptext"></i>
+        {% endif %}
+      </strong>
+    </div>
+
+    <div class="popuptext">
+      {{message|safe}}
+    </div>
+{% endfor %}
