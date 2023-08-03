@@ -3,6 +3,8 @@ from hitcount.models import HitCountMixin, HitCount
 from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from django.urls import reverse
+from taggit.managers import TaggableManager
 # Create your models here.
 #cause we want to use this class in post we must declare this before class post
 class Category(models.Model) :
@@ -16,7 +18,7 @@ class post(models.Model):
     author = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     title = models.CharField(max_length = 255)
     content = models.TextField()
-    #tag
+    tags = TaggableManager()
     category = models.ManyToManyField(Category)
     conted_vies = models.IntegerField(default = 0)
     status = models.BooleanField(default = False)
@@ -33,7 +35,10 @@ class post(models.Model):
         value = self.title
         self.slug = slugify(value, allow_unicode=True)
         super().save(*args, **kwargs)
-
+    '''
+    def get_absolute_url(self):
+        return reverse('blog:detail',kwargs={'pk':self.id})
+    '''
 
     def __str__(self):
         return "{}-{}".format(self.title,self.id)
