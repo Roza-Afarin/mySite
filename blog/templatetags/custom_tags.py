@@ -1,7 +1,12 @@
 from django import template
-from blog.models import post,Category
+from blog.models import post,Category,Comment
 
 register = template.Library()
+
+@register.simple_tag(name='comment_count')
+def count_comments(pid):
+    posts = post.objects.get(id=pid)
+    return Comment.objects.filter(post=posts).count()
 
 @register.simple_tag
 def subtract(value, arg):

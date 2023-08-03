@@ -5,11 +5,12 @@ from django.shortcuts import render,get_object_or_404
 #import datetime
 #from hitcount.views import HitCountDetailView
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
-from blog.models import post
+from blog.models import post,Comment
 from datetime import *
 from django.utils import timezone
 from django.views.generic import ListView
-
+from blog.forms import CommentsForm
+from django.contrib import messages
 
 #class PostDetailView(HitCountDetailView):
 #    model = post
@@ -55,6 +56,14 @@ def blog_index(request,**kwargs):
     return render(request,'blog/blog-home.html',context)#template
 
 def blog_single(request,pk):
+    if request.method == 'POST':
+        form = CommentsForm(request.POST)
+        if form.is_valid():
+            form = form.save()
+            messages.add_message(request, messages.SUCCESS, "your comment submitted successfully")
+        else:
+            messages.add_message(request, messages.ERROR, "your comment didn't submitted")
+    
     posts = get_object_or_404(post,pk=pk,status = 1)
     posts.conted_vies+=1
     posts.save()
@@ -65,8 +74,10 @@ def blog_single(request,pk):
     try:
         previous = posts.get_previous_by_created_date()
     except posts.DoesNotExist:
-         previous = None
-    context = {'posts':posts,'next':next,'previous':previous}
+        previous = None
+    comments = Comment.objects.filter(post=posts.id,approved=True).order_by('-created_date')
+    form = CommentsForm()
+    context = {'posts':posts,'next':next,'previous':previous,'comments':comments,'form':form}
     return render(request,'blog/blog-single.html',context)
 
 def blog_category(request,cat_name):
