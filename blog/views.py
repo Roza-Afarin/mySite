@@ -1,4 +1,4 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 
 # Create your views here.
 #from django.http import HttpResponse,JsonResponse
@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.views.generic import ListView
 from blog.forms import CommentsForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 #class PostDetailView(HitCountDetailView):
 #    model = post
@@ -31,7 +32,6 @@ class PostListView(ListView):
     paginate_by = 1
 #    queryset = post.objects.order_by('-id')
     
-
 
 def blog_index(request,**kwargs):
     posts = post.objects.filter(published_date__lte=timezone.now(),status = 1)
@@ -75,10 +75,13 @@ def blog_single(request,pk):
         previous = posts.get_previous_by_created_date()
     except posts.DoesNotExist:
         previous = None
-    comments = Comment.objects.filter(post=posts.id,approved=True).order_by('-created_date')
-    form = CommentsForm()
-    context = {'posts':posts,'next':next,'previous':previous,'comments':comments,'form':form}
-    return render(request,'blog/blog-single.html',context)
+    if not posts.login_requier:
+        comments = Comment.objects.filter(post=posts.id,approved=True).order_by('-created_date')
+        form = CommentsForm()
+        context = {'posts':posts,'next':next,'previous':previous,'comments':comments,'form':form}
+        return render(request,'blog/blog-single.html',context)
+    else:
+        return redirect('/account/login')
 
 def blog_category(request,cat_name):
     posts = post.objects.filter(status=1,category__name=cat_name)

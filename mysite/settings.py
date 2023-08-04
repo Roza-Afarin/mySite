@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'website.apps.WebsiteConfig',
     'blog.apps.BlogConfig',
+    'account.apps.AccountConfig',
     'hitcount',
     'mathfilters',
     'django.contrib.humanize',
@@ -64,6 +65,8 @@ MULTI_CAPTCHA_ADMIN = {
     'engine': 'simple-captcha',
 }
 
+#login required
+LOGIN_URL = '/account/login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

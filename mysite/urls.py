@@ -36,6 +36,7 @@ urlpatterns = [
     #path('website/',include('website.urls'))
     path('',include('website.urls')),# home page
     path('blog/',include('blog.urls')),
+    path('account/',include('account.urls')),
     path(
         "sitemap.xml",
         sitemap,

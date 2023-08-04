@@ -25,6 +25,7 @@ class post(models.Model):
     category = models.ManyToManyField(Category)
     conted_vies = models.IntegerField(default = 0)
     status = models.BooleanField(default = False)
+    login_requier = models.BooleanField(default=False)
     published_date = models.DateTimeField(auto_now = True)
     created_date = models.DateTimeField(auto_now_add = True)
     updated_date = models.DateTimeField(auto_now = True)
