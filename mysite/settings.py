@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -165,3 +166,18 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 '''
+
+#added backend for authentication by email or username
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend', # This is the default that allows us to log in via username
+    'account.authentication.EmailAuthBackend'
+]
+
+# email configs
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'afarin.roza@gmail.com'
+EMAIL_HOST_PASSWORD = 'kxzttpbbewtegtmk'
+EMAIL_USE_TLS = True

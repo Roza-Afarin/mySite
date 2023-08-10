@@ -1,10 +1,25 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm,UserCreationForm,SetPasswordForm
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
+from django.urls import reverse,reverse_lazy
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
+from account.forms import CustomUserCreationForm
+
 
 # Create your views here.
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'account/password_reset.html'
+    email_template_name = 'account/password_reset_email.html'
+    subject_template_name = 'account/password_reset_subject.txt'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    success_url = reverse_lazy('account:login')
+
 
 def login_view(request):
     '''
@@ -41,13 +56,14 @@ def logout_view(request):
 def signup_view(request):
     if not request.user.is_authenticated:
         if request.method == 'POST':
-            form = UserCreationForm(request.POST)
+            form = CustomUserCreationForm(request.POST)
             if form.is_valid():
                 form.save()
                 return redirect('/')
         
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
         content = {'form':form}
         return render(request,'account/signup.html',content)
     else:
         return redirect('/')
+
