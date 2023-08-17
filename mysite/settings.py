@@ -43,6 +43,7 @@ INSTALLED_APPS = [
      "taggit",
      'django_summernote',
      'captcha',
+     "compressor",
 ]
 
 
@@ -164,4 +165,13 @@ EMAIL_USE_SSL = False
 ##
 
 #MAINTENANCE_MODE
-MAINTENANCE_MODE = True
+MAINTENANCE_MODE = False
+
+#compress
+STATICFILES_FINDERS = (
+        'compressor.finders.CompressorFinder',
+)
+COMPRESS_ENABLED = True
+
+COMPRESS_CSS_FILTERS = ["compressor.filters.cssmin.CSSMinFilter"]
+COMPRESS_JS_FILTERS = ["compressor.filters.jsmin.JSMinFilter"]

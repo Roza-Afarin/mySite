@@ -6,9 +6,9 @@ from mysite.settings import *
 SECRET_KEY = 'django-insecure-1m^8w+7cur)i3&)5wg5(&e&=7p+9+w*19%jm%c(qysl)l9l8m_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['rozafarin.com','www.rozafarin.com']
 
 
 #sitemap
